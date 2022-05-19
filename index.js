@@ -21,15 +21,18 @@ async function run() {
   try {
     await client.connect();
     const taskCollection = client.db("todoApp").collection("task");
+    // FIND ALL TASK
     app.get("/task", async (req, res) => {
       const task = await taskCollection.find().toArray();
       res.send(task);
     });
+    // TASK POST
     app.post("/task", async (req, res) => {
       const task = req.body;
       const result = await taskCollection.insertOne(task);
       res.send(result);
     });
+    // TASK DELETE
     app.delete("/taskDelete/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
